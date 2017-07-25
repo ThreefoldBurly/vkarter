@@ -45,7 +45,7 @@ Jeśli ktoś woli DOC zamiast DOCX, to polecam pakiet `unoconv` (trzeba mieć za
 
 ### ZASTRZEŻENIA
 
-**vkarter** to WIP. W założeniach miał również generować *Rejestry Czynników Szkodliwych dla Zdrowia Występujących na Stanowisku Pracy** (parsuje wszystkie dane, które są do tego potrzebne). Z czynników szkodliwych oprócz hałasu, pyłów i substancji chemicznych miał też brać pod uwagę drgania - tu praca utknęła w pół drogi. Do tego program ma kilka bugów, o których wiem i których nigdy nie wyprostowałem (i pewno więcej, o których nie wiem). 
+**vkarter** to WIP. W założeniach miał również generować *Rejestry Czynników Szkodliwych dla Zdrowia Występujących na Stanowisku Pracy* (parsuje wszystkie dane, które są do tego potrzebne). Z czynników szkodliwych oprócz hałasu, pyłów i substancji chemicznych miał też brać pod uwagę drgania - tu praca utknęła w pół drogi. Do tego program ma kilka bugów, o których wiem i których nigdy nie wyprostowałem (i pewno więcej, o których nie wiem). 
 
 Poza tym główna biblioteka, którą się posłużyłem, `python-docx` sama jest WIP i narzuca pewne ograniczenia, których się nie da obejść.
 
