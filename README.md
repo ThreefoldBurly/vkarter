@@ -30,7 +30,7 @@ Skrypt rozpoznaje 3 scenariusze parametrów:
 
 1) *parametry* to nazwy plików do sparsowania oddzielone spacją
 2) *parametry* to `-a` albo `--all` - zostaną wczytane wszystkie pliki DRK znajdujące się w katalogu
-3) *parametry* to `-a 00-000` lub `--all 00-000`, gdzie `00-000` to nazwa pliku DRK w formacie rok-nr_sprawozdania np. `17-205.DRK` - wszystkie pliki w takim formacie (np. 17-205.DRK, 17-205-2.DRK, 17-205-3.DRK itd.) zostaną wczytane
+3) *parametry* to `-a 00-000` lub `--all 00-000`, gdzie `00-000` to nazwa pliku DRK w formacie *rok-nr_sprawozdania* np. `17-205.DRK` - wszystkie pliki w takim formacie (np. `17-205.DRK`, `17-205-2.DRK`, `17-205-3.DRK` itd.) zostaną wczytane
 
 ##### PLIKI TEKSTOWE
 
