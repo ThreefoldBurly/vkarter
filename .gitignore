@@ -1,0 +1,9 @@
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Python compiled files
+*.pyc
+
+# kopie robocze
+*.cpy
