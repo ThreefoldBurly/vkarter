@@ -13,7 +13,7 @@ W katalogu `hpz` można znaleść 2 przykładowe zestawy plików DRK wraz z ich 
 
 ### WYMAGANIA
 
-Skrypt do poprawnego działania wymaga zainstalowania Pythona 2.7 oraz dwóch niestandardowych bibliotek:
+Skrypt do poprawnego działania wymaga zainstalowania Pythona 2.x oraz dwóch niestandardowych bibliotek:
 
 - [python-docx](https://python-docx.readthedocs.io/en/latest/user/install.html "python-docx")
 - [FuzzyWuzzy](https://github.com/seatgeek/fuzzywuzzy "FuzzyWuzzy")
