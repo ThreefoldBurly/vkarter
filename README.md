@@ -20,6 +20,8 @@ Skrypt do poprawnego działania wymaga zainstalowania Pythona 2.7 oraz dwóch ni
 
 Powinno się dać go uruchomić na każdej platformie (Linux/Windows/MacOS), ale nie daję głowy - sam przetestowałem tylko na Ubuntu.
 
+Osobom, które chciałyby grzebać w plikach DRK, zwracam uwagę, że są one kodowane w `cp1250`, co może sprawiać pewne problemy na współczesnych systemach (pod Linuksem polecam odpalenie *Leafpada* z parametrem `--codeset=cp1250`)
+
 ### UŻYCIE
 
 Przegrać pliki .py i .vka do katalogu, zawierającego pliki DRK, z których chcemy wygenerować karty. W terminalu, będąc w tym katalogu, uruchomić skrypt komendą:
@@ -48,6 +50,3 @@ Jeśli ktoś woli DOC zamiast DOCX, to polecam pakiet `unoconv` (trzeba mieć za
 **vkarter** to WIP. W założeniach miał również generować *Rejestry Czynników Szkodliwych dla Zdrowia Występujących na Stanowisku Pracy* (parsuje wszystkie dane, które są do tego potrzebne). Z czynników szkodliwych oprócz hałasu, pyłów i substancji chemicznych miał też brać pod uwagę drgania - tu praca utknęła w pół drogi. Do tego program ma kilka bugów, o których wiem i których nigdy nie wyprostowałem (i pewno więcej, o których nie wiem). 
 
 Poza tym główna biblioteka, którą się posłużyłem, `python-docx` sama jest WIP i narzuca pewne ograniczenia, których się nie da obejść.
-
-
-

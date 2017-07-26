@@ -18,7 +18,7 @@ PLACEHOLDER_MYSLNIK = u"-"
 
 
 class TypPomiaru(object):
-    """Enum określający typ pomiaru lub brak pomiaru"""
+    """Enum określający typ Pomiaru lub brak Pomiaru"""
     ZADEN = 0
     HALAS = 1
     DRGANIA = 2
@@ -26,7 +26,9 @@ class TypPomiaru(object):
 
 
 class WzorceParsowaniaNDS(object):
-    """Enum określający typ wzorców do parsowania NDS. Wykorzystywany przez metodę sparsujNDS() klasy ParserPylowChemii"""
+    """
+    Enum określający typ wzorców do parsowania NDS. Wykorzystywany przez metodę sparsujNDS() klasy ParserPylowChemii
+    """
     # potrzebujemy list jednoelementowych ze wzgl. na strukturę algorytmu parsowania
     ZWYKLY = [u"NDS :", u"NDS(cał", u"NDS(wdch"]
     RESP = [u"NDS(resp"]
@@ -34,18 +36,21 @@ class WzorceParsowaniaNDS(object):
 
 
 class TrybParsowaniaPO(object):
-    """Enum określający tryb parsowania p.o.: 1) frakcja wdychalna, 2) frakcja respirabilna, 3) próbka chwilowa - dla metody sparsujPO() klasy ParserPylowChemii"""
+    """
+    Enum określający tryb parsowania p.o.: 1) frakcja wdychalna, 2) frakcja respirabilna, 3) próbka chwilowa - dla metody sparsujPO() klasy ParserPylowChemii
+    """
     FRAKCJA_RESP = 1
     FRAKCJA_WDYCH = 2
     CHWILOWKI = 3
 
+
 # funkcje
 # konwerter liczb rzymskich
-
-
 def konwertujRzymskie(liczba):
-    """Konwertuje liczby rzymskie do arabskich. Jeśli podany string nie był liczbą rzymską, zwraca go z powrotem"""
-    # konwersja najmniejszych liczb jest wystarczająca dla zastosowań tego skryptu. Pozostawienie większych liczb powoduje zwiększenie prawdopodobieństwa niepożądanej konwersji skrótu literówego
+    """
+    Konwertuje liczby rzymskie do arabskich. Jeśli podany string nie był liczbą rzymską, zwraca go z powrotem
+    """
+    # konwersja najmniejszych liczb rzymskich jest wystarczająca dla zastosowań tego skryptu. Implementacja większych liczb zwiększyłaby prawdopodobieństwo niepożądanej konwersji skrótu literowego do liczby arabskiej
     rzymskie = {
         u'I': 1,
         u'V': 5,
@@ -85,6 +90,7 @@ def konwertujRzymskie(liczba):
     else:
         return liczba
 
+
 # globalny kontener na dane zczytane z plików tekstowych .vka, które powinny być czytane tylko raz i być ogólnodostępne
 STALE_ZEWNETRZNE = {
     u"WYKONAWCA_POMIARU": None,
@@ -93,9 +99,8 @@ STALE_ZEWNETRZNE = {
     u"SŁOWNIK_ODMIAN": None
 }
 
+
 # TODO: dodać obsługę 'exists' jak w metodzie pobierzDRK()
-
-
 def sparsujWykonawcePomiaru():
     """Parsuje z pliku tekstowego 'vkarter_stale.vka' informację o wykonawcy pomiaru"""
     wykonawca = []
@@ -110,11 +115,12 @@ def sparsujWykonawcePomiaru():
 
     return u"".join(wykonawca)
 
+
 # TODO: dodać obsługę 'exists' jak w metodzie pobierzDRK()
-
-
 def sparsujMetodyPomiarow():
-    """Parsuje z pliku tekstowego 'vkarter_stale.vka' informacje o metodach pomiarów i zapisuje jako krotkę MetodyPomiarow w kontenerze STALE_ZEWNETRZNE"""
+    """
+    Parsuje z pliku tekstowego 'vkarter_stale.vka' informacje o metodach pomiarów i zapisuje jako krotkę MetodyPomiarow w kontenerze STALE_ZEWNETRZNE
+    """
     metoda_halas = []
     metoda_pyl = []
     metoda_pyl_SiO2 = []
@@ -138,11 +144,12 @@ def sparsujMetodyPomiarow():
 
     return MetodyPomiarow(u"".join(metoda_halas), u"".join(metoda_pyl), u"".join(metoda_pyl_SiO2), u"".join(metoda_chemia))
 
+
 # TODO: dodać obsługę 'exists' jak w metodzie pobierzDRK()
-
-
 def sparsujSkrotyDlaNazwyPliku():
-    """Parsuje słownik skrótów dla GeneratoraNazwyPliku umieszczony w pliku tekstowym 'vkarter_skroty.vka'"""
+    """
+    Parsuje słownik skrótów dla GeneratoraNazwyPliku umieszczony w pliku tekstowym 'vkarter_skroty.vka'
+    """
     slownik = []
     with codecs.open('vkarter_skroty.vka', encoding='utf-8') as plik:
         for linia in plik:
@@ -155,11 +162,12 @@ def sparsujSkrotyDlaNazwyPliku():
 
     return slownik
 
+
 # TODO: dodać obsługę 'exists' jak w metodzie pobierzDRK()
-
-
 def sparsujOdmianyNazwCzynnikow():
-    """Parsuje słownik odmian nazw czynników potrzebny do właściwego parsowania wartości p.o. umieszczony w pliku tekstowym 'vkarter_odmiany.vka'"""
+    """
+    Parsuje słownik odmian nazw Czynników potrzebny do właściwego parsowania wartości p.o. umieszczony w pliku tekstowym 'vkarter_odmiany.vka'
+    """
     slownik = []
     with codecs.open('vkarter_odmiany.vka', encoding='utf-8') as plik:
         for linia in plik:
@@ -168,21 +176,22 @@ def sparsujOdmianyNazwCzynnikow():
 
     slownik = dict(slownik)
 
-    assert len(slownik) > 0, u"Nieudane parsowanie slownika skrotow odmian nazw czynników. Brak pliku 'vkarter_odmiany.vka' lub plik nie zawiera danych w prawidlowym formacie"
+    assert len(slownik) > 0, u"Nieudane parsowanie slownika skrotow odmian nazw Czynników. Brak pliku 'vkarter_odmiany.vka' lub plik nie zawiera danych w prawidlowym formacie"
 
     return slownik
 
 
 def sparsujPlikiVKA():
-    """Funkcja wykonywana na początku skryptu, która parsuje wszystkie dane zgromadzone w zewnętrznych plikach tekstowych .vka i umieszcza je w globalnym słowniku"""
+    """
+    Funkcja wykonywana na początku skryptu, która parsuje wszystkie dane zgromadzone w zewnętrznych plikach tekstowych .vka i umieszcza je w globalnym słowniku
+    """
     STALE_ZEWNETRZNE[u"WYKONAWCA_POMIARU"] = sparsujWykonawcePomiaru()
     STALE_ZEWNETRZNE[u"METODY_POMIARÓW"] = sparsujMetodyPomiarow()
     STALE_ZEWNETRZNE[u"SŁOWNIK_SKRÓTÓW"] = sparsujSkrotyDlaNazwyPliku()
     STALE_ZEWNETRZNE[u"SŁOWNIK_ODMIAN"] = sparsujOdmianyNazwCzynnikow()
 
+
 # TYMCZASOWO - DO TESTÓW
-
-
 def wyswietlKomunikat(komunikat, dl_kom=50):
     print
     print "*" * dl_kom

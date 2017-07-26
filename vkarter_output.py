@@ -8,6 +8,7 @@ from fuzzywuzzy import fuzz
 from vkarter_input import *
 from vkarter_shared import *
 
+
 # TODO: obsługa PLACEHOLDERÓW
 # TODO: pomijanie adresów w Miejscu Pomiaru
 # TODO: prawidłowa obsługa (pomijanie) cudzysłowów
@@ -34,7 +35,7 @@ class GeneratorNazwyPliku(object):
         for fraza in podzial:
             nowa_fraza = u""
             wyrazy = fraza.split()
-            
+
             for wyraz in wyrazy:
                 # obsługa nawiasów
                 byl_nawias = False
@@ -83,8 +84,10 @@ class GeneratorNazwyPliku(object):
         return u",".join(nowy_podzial)
 
     def generujSkrotNazwySt(self):
-        """Na podstawie znanego klasie słownika skrótów generuje skrótową wersję nazwy stanowiska do umieszczenia w nazwie pliku"""
-        slownik_skrotow = STALE_ZEWNETRZNE[u"SŁOWNIK_SKRÓTÓW"] 
+        """
+        Na podstawie znanego klasie słownika skrótów generuje skrótową wersję nazwy stanowiska do umieszczenia w nazwie pliku
+        """
+        slownik_skrotow = STALE_ZEWNETRZNE[u"SŁOWNIK_SKRÓTÓW"]
         skrot = self.nazwa_st
 
         for klucz in slownik_skrotow:
@@ -94,11 +97,13 @@ class GeneratorNazwyPliku(object):
         return skrot
 
     # tylko legalne znaki w nazwie!
-    def generujNazwePliku(self, suffix, prog = 50):
-        """Tworzy nazwę pliku (karty lub rejestru w zależności od suffiksu), skracając nazwę stanowiska, jeśli ilość znaków w wygenerowanej nazwie przekroczy podany próg"""
+    def generujNazwePliku(self, suffix, prog=50):
+        """
+        Tworzy nazwę pliku (karty lub rejestru w zależności od suffiksu), skracając nazwę stanowiska, jeśli ilość znaków w wygenerowanej nazwie przekroczy podany próg
+        """
         skrot_miejsca = self.generujSkrotMiejscaPom()
         wstepna_dlugosc = 3 + 1 + len(skrot_miejsca) + 1 + len(self.nazwa_st) + 1 + len(self.nr_spr) + len(suffix)
-        
+
         nazwa_pliku = []
         nazwa_pliku.append(self.nr_st)
         nazwa_pliku.append(u"_")
@@ -135,12 +140,16 @@ class GeneratorNazwyPliku(object):
 
         return nazwa_pliku
 
+
 # TODO: dodać pole zachowujące wygenerowaną nazwę pliku (generowana nazwa nie powinna wtedy zawierać numeru, a numeracja powinna zależeć od nazwy a konkretnie od skrótu miejsca pomiaru). Być może dobrze byłoby stworzyć osobną klasę dla nazwy pliku albo stworzyc osobną klasę dla karty i przeniesc to polę tam
 class Stanowisko(object):
-    """Abstrakcyjna reprezentacja stanowiska - realizowana jako Karta Czynników Szkodliwych lub Rejestr Czynników Szkodliwych"""
+    """
+    Abstrakcyjna reprezentacja stanowiska - realizowana jako Karta Czynników Szkodliwych lub Rejestr Czynników Szkodliwych
+    """
+
     def __init__(self, czynniki, numer):
         super(Stanowisko, self).__init__()
-        self.czynniki = czynniki # lista
+        self.czynniki = czynniki  # lista
         self.numer = numer
         self.karta = self.przygotujKarte()
 
@@ -191,7 +200,7 @@ class Stanowisko(object):
         styl_zt.font.name = 'Times New Roman'
         styl_zt.font.size = Pt(10)
 
-        #style stopki (wykorzystywane tylko pod czynnikami chemicznymi)
+        # style stopki (wykorzystywane tylko pod czynnikami chemicznymi)
         styl_as = style.add_style('akapit-stopki', WD_STYLE_TYPE.PARAGRAPH)
         styl_as.base_style = style['Normal']
         styl_as.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -206,11 +215,11 @@ class Stanowisko(object):
         styl_zs.font.name = 'Times New Roman'
         styl_zs.font.size = Pt(8)
 
-        tytul1 = karta.add_paragraph(style = 'akapit-naglowka')
-        tytul1.add_run(u'KARTA BADAŃ I POMIARÓW CZYNNIKÓW SZKODLIWYCH', style = 'znaki-naglowka')
+        tytul1 = karta.add_paragraph(style='akapit-naglowka')
+        tytul1.add_run(u'KARTA BADAŃ I POMIARÓW CZYNNIKÓW SZKODLIWYCH', style='znaki-naglowka')
         # interlinia
-        tytul2 = karta.add_paragraph(style = 'akapit-stopki')
-        tytul2.add_run(u"", style = 'znaki-naglowka')
+        tytul2 = karta.add_paragraph(style='akapit-stopki')
+        tytul2.add_run(u"", style='znaki-naglowka')
 
         return karta
 
@@ -221,7 +230,7 @@ class Stanowisko(object):
         for czynnik in self.czynniki:
             czynnik.rysujTabelke(self.karta)
 
-        # dane dla generatora pobierane są z pierwszego czynnika
+        # dane dla generatora pobierane są z pierwszego Czynnika
         generator_nazwy = GeneratorNazwyPliku(self.numer, self.czynniki[0].miejsce, self.czynniki[0].nazwa_st, self.czynniki[0].nr_spr)
         print u"Tworzę kartę!"
         self.karta.save(generator_nazwy.generujNazwePliku(suffix))
@@ -231,15 +240,15 @@ class Stanowisko(object):
         pass
 
 # class GeneratorCzynnikow(object):
-#     """Generuje listy obiektów klasy Czynnik dla MonteraStanowisk z pomiarów otrzymanych od ParseraDRK przy pomocy parserów odpowiednich typów."""
+#     """Generuje listy obiektów klasy Czynnik dla MonteraStanowisk z Pomiarów otrzymanych od ParseraDRK przy pomocy parserów odpowiednich typów."""
 #     def __init__(self, pomiary):
 #         super(GeneratorCzynnikow, self).__init__()
-#         self.pomiary = pomiary # listy wszystkich zebranych pomiarów uporządkowane wg typów w krotce otrzymywanej od obiektu klasy ParserDRK
+#         self.pomiary = pomiary # listy wszystkich zebranych Pomiarów uporządkowane wg typów w krotce otrzymywanej od obiektu klasy ParserDRK
 
 #     def generujHalasy(self):
 #         """Z obiektów zebranych od parserów generuje listę hałasów"""
 #         halasy = [] # lista obiektów klasy Halas
-        
+
 #         for pomiar in self.pomiary.halas:
 #             parser = ParserHalasu(pomiar)
 #             halasy.append(parser.podajHalas())
@@ -253,21 +262,24 @@ class Stanowisko(object):
 #         pass
 
 class MonterStanowisk(object):
-    """Z pomiarów otrzymanych od ParseraDRK generuje listy czynników, z których z kolei, kojarząc je ze sobą właściwie na ile to możliwe, montuje stanowiska"""
+    """
+    Z Pomiarów otrzymanych od ParseraDRK generuje listy Czynników, z których z kolei, kojarząc je ze sobą właściwie na ile to możliwe, montuje stanowiska
+    """
+
     def __init__(self, pomiary):
         super(MonterStanowisk, self).__init__()
         self.pomiary = pomiary
 
-        self.halasy = self.stworzHalasy() # lista obiektów
+        self.halasy = self.stworzHalasy()  # lista obiektów
         # self.drgania = drgania
-        self.pyly_chemie = self.stworzPylyChemie() # lista list obiektów!
+        self.pyly_chemie = self.stworzPylyChemie()  # lista list obiektów!
 
         self.stanowiska = []
 
         # print u"Długość pól MonteraStanowisk po inicjalizacji. Halas: %d" % len(self.halasy)
 
     def stworzHalasy(self):
-        """Generuje hałasy z pomiarów odpowedniego typu"""
+        """Generuje Hałasy z Pomiarów odpowedniego typu"""
         halasy = []
 
         for pomiar in self.pomiary.halas:
@@ -282,8 +294,8 @@ class MonterStanowisk(object):
         pass
 
     def stworzPylyChemie(self):
-        """Generuje pyły/chemie z pomiarów odpowiedniego typu"""
-        pyly_chemie = [] 
+        """Generuje Pyły/Chemie z Pomiarów odpowiedniego typu"""
+        pyly_chemie = []
 
         for pomiar in self.pomiary.pyly_chemia:
             ppch = ParserPylowChemii(pomiar)
@@ -306,7 +318,7 @@ class MonterStanowisk(object):
             return str(nr_st)
 
     @staticmethod
-    def czySaPodobne(opis1, opis2, prog = 95):
+    def czySaPodobne(opis1, opis2, prog=95):
         """Porównuje podobieństwo opisów czynności, wykorzystując bibliotekę FuzzyWuzzy"""
         fuzzyratio = fuzz.token_set_ratio(opis1, opis2)
         if fuzzyratio >= prog:
@@ -314,18 +326,20 @@ class MonterStanowisk(object):
         else:
             return False
 
-    # TODO: dodać obsługę skojarzeń w obrębie jednego typu pomiarów (tak było w TIMKENIE! - te same stanowiska w różnych sprawozdaniach tego samego typu (osobno pył i oleje mineralne)). Dodać fuzzy matching do nazw stanowisk (jeśli to możliwe) - w Timkenie część nazw się nie skojarzyło bo wersja nazwy u mnie miała spacje w oznaczeniu maszyny a wersja tej samej nazwy u TT tej spacji nie miałą
+    # TODO: dodać obsługę skojarzeń w obrębie jednego typu Pomiarów (zdarzało się tak w niektórych sprawozdaniach - te same stanowiska w różnych sprawozdaniach tego samego typu (osobno pył i oleje mineralne)). Dodać fuzzy matching do nazw stanowisk (jeśli to możliwe) - były takie sprawozdania, w których część nazw się nie skojarzyło bo wersja nazwy u mnie miała spacje w oznaczeniu maszyny a wersja tej samej nazwy u TT tej spacji nie miałą
     # TODO: stworzyć bardziej zaawansowane uporządkowywanie stanowisk (niż tylko: najpierw wszystkie stanowiska wg kolejności hałasu, potem reszta). Należałoby zczytać porządek wydziałów w hałasie (najlepiej na podstawie skrótów - ale to wymaga obudowania nazwy pliku klasą i wydzielenie skrótu miejsca pomiaru jako pola tej klasy) i zbudować nową listę wg tego porządku z wszystkich stworzonych stanowisk
-    # TODO: dodać obsługę niepełnych czynników (z brakującymi (jednocześnie) miejscem pomiaru i nazwą stanowiska) - powstałych z pomiarów, będących tylko kontynuacją pomiarów poprzedzających je w pliku DRK. Takie czynniki byłyby automatycznie dołączane do stanowiska utworzonego dla poprzedniego czynnika z listy czynników i miałyby od razu uzupełniane dane o miejscu pomiaru i nazwie stanowiska.
+    # TODO: dodać obsługę niepełnych Czynników (z brakującymi (jednocześnie) miejscem pomiaru i nazwą stanowiska) - powstałych z Pomiarów, będących tylko kontynuacją Pomiarów poprzedzających je w pliku DRK. Takie Czynniki byłyby automatycznie dołączane do stanowiska utworzonego dla poprzedniego Czynnika z listy Czynników i miałyby od razu uzupełniane dane o miejscu pomiaru i nazwie stanowiska.
     def montujStanowiska(self):
-        """Kojarzy czynniki przynależne do tego samego stanowiska i tworzy z nich obiekty klasy Stanowisko"""
+        """
+        Kojarzy Czynniki przynależne do tego samego stanowiska i tworzy z nich obiekty klasy Stanowisko
+        """
         dek_halasow = self.halasy[:]
         dek_pylow_chemii = self.pyly_chemie[:]
         print "Ilosc elementow w deku chemi: %d" % len(dek_pylow_chemii)
 
         licznik = 0
         for i in xrange(len(dek_halasow)):
-            print "========= ITERACJA #%d =========" % (i+1)
+            print "========= ITERACJA #%d =========" % (i + 1)
             print "nr stanowiska: %s" % self.generujNrStanowiska(i)
             czynniki_dla_st = []
             halas = dek_halasow[i]
@@ -333,15 +347,14 @@ class MonterStanowisk(object):
 
             czynnosci_halasu = u", ".join(halas.czynnosci)
 
-            # UWAGA! zmienna 'pylochem' jest tutaj listą czynników 
-
+            # UWAGA! zmienna 'pylochem' jest tutaj listą Czynników
             # z listy pyłów/chemii wybieramy te, w których zgadza się nazwa stanowiska
             wybrane_pylochemy = []
             for pylochem in dek_pylow_chemii:
                 n1 = nazwa
                 n2 = pylochem[0].nazwa_st
-                print "Token set ratio dla nazw: *** %d ***" % fuzz.token_set_ratio(n1,n2)
-                # zamieniłem test równości nazw stanowiska na fuzzy matching (z progiem 97). Taki test wybiera pary nazw które różnią się 1-2 spacjami np.: "magazynier-operator", "magazynier - operator" czy "operator kuźniarki 88 RMC", "operator kuźniarki 88RMC" ale odrzuca te różniące się np. numeracją: "szlifierz VI", "szlifierz V" czy "szlifierz 1", "szlifierz 2" 
+                print "Token set ratio dla nazw: *** %d ***" % fuzz.token_set_ratio(n1, n2)
+                # zamieniłem test równości nazw stanowiska na fuzzy matching (z progiem 97). Taki test wybiera pary nazw które różnią się 1-2 spacjami np.: "magazynier-operator", "magazynier - operator" czy "operator kuźniarki 88 RMC", "operator kuźniarki 88RMC" ale odrzuca te różniące się np. numeracją: "szlifierz VI", "szlifierz V" czy "szlifierz 1", "szlifierz 2"
                 if self.czySaPodobne(n1, n2, 97):
                     wybrane_pylochemy.append(pylochem)
 
@@ -352,7 +365,7 @@ class MonterStanowisk(object):
                 s1 = czynnosci_halasu
                 s2 = wybrane_pylochemy[0][0].czynnosci
 
-                print "Token set ratio w pierwszej galezi: *** %d ***" % fuzz.token_set_ratio(s1,s2)
+                print "Token set ratio w pierwszej galezi: *** %d ***" % fuzz.token_set_ratio(s1, s2)
 
                 if self.czySaPodobne(s1, s2):
                     print "PIERWSZY STRING"
@@ -373,8 +386,7 @@ class MonterStanowisk(object):
                     czynniki_dla_st.append(halas)
                     self.stanowiska.append(Stanowisko(czynniki_dla_st, self.generujNrStanowiska(i)))
 
-
-                licznik += 1 
+                licznik += 1
 
             elif len(wybrane_pylochemy) > 1:
                 print "Druga galaz"
@@ -383,8 +395,8 @@ class MonterStanowisk(object):
                 for pylochem in wybrane_pylochemy:
                     s1 = czynnosci_halasu
                     s2 = pylochem[0].czynnosci
-    
-                    print "Token set ratio w drugiej galezi: *** %d ***" % fuzz.token_set_ratio(s1,s2)
+
+                    print "Token set ratio w drugiej galezi: *** %d ***" % fuzz.token_set_ratio(s1, s2)
 
                     if self.czySaPodobne(s1, s2):
                         print "PIERWSZY STRING"
@@ -414,10 +426,11 @@ class MonterStanowisk(object):
 
                 licznik += 1
 
-        # reszte stanowisk należy utworzyć z tego co zostału z deku pylow/chemii
+        # resztę stanowisk należy utworzyć z tego co zostału z deku pylow/chemii
         for j in xrange(len(dek_pylow_chemii)):
             pylochem = dek_pylow_chemii[j]
             self.stanowiska.append(Stanowisko(pylochem, self.generujNrStanowiska(licznik + j)))
+
 
 # TODO: przenieść większość wywoływanych tu metod do metody __init__ poszczególnych klas (analogicznie do przygotujKarte() klasy Stanowisko)
 def main():

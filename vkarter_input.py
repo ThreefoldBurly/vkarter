@@ -633,7 +633,9 @@ class ParserPomiaru(object):
     # TODO: sprawdzić czy argument dl_wzorca nie jest do wyrzucenia
     @staticmethod
     def scalLinieTekstu(linie_tekstu, wzorce_konca=None):
-        """Poprawia i scala (konkatenuje) linie tekstu DRK (najczęściej jest to kolumna wiersza tabeli). Ostatni argument steruje zakończeniem scalania"""
+        """
+        Poprawia i scala (konkatenuje) linie tekstu DRK (najczęściej jest to kolumna wiersza tabeli). Ostatni argument steruje zakończeniem scalania
+        """
         scalone_linie = []
 
         for linia in linie_tekstu:
@@ -1364,7 +1366,7 @@ class ParserPylowChemii(ParserPomiaru):
             return p_o_dozwrotu
 
         p_o = []
-        # UWAGA: zastosowany algorytm nie obejmuje przypadków, w których wzorzec (nazwa danego związku) jest na tyle długi (powyżej 32 znaków), że przechodzi w pliku DRK do kolejnej linii. Jest to dość istotny problem, bo wzorzec wraz z dodanym suffiksem (w przypadku frakcji wsychalnych, respirabilnych i chwilówek) na ogół przekroczy ten limit. TODO: sprawdzić precyzyjnie w HPZ-ecie tę ilość znaków.
+        # UWAGA: zastosowany algorytm nie obejmuje przypadków, w których wzorzec (nazwa danego związku) jest na tyle długi (powyżej 32 znaków), że przechodzi w pliku DRK do kolejnej linii. Jest to dość istotny problem, bo wzorzec wraz z dodanym suffiksem (w przypadku frakcji wdychalnych, respirabilnych i chwilówek) na ogół przekroczy ten limit. TODO: sprawdzić precyzyjnie w HPZ-ecie tę ilość znaków.
         # Dodatkowym problemem jest obsługa sytuacji w których powinny wystąpić 2 suffiksy jednocześnie (np. dla tlenków żelaza - frakcja wdychalna oraz próbka chwilowa) - z jednej strony łamie to zastosowany algorytm, z drugiej oznacza prawie pewne przekroczenie limitu 32 znaków w linii
         if wzorzec is not None:
             slownik_odmian = STALE_ZEWNETRZNE[u"SŁOWNIK_ODMIAN"]
@@ -1373,7 +1375,7 @@ class ParserPylowChemii(ParserPomiaru):
             # dodanie spacji na początku eliminuje fałszywe trafienia dla nazw Czynników o tym samym rdzeniu a różnych przedrostkach - np. 'tlenek i ditlenek azotu'
             odm_wzorzec = u" " + odm_wzorzec
 
-            # tej pętli nie da się uprościć (eliminując powtórzenia, ponieważ zachowanie gałęzi 'else' jest inne od pozostałych trzech)
+            # tej pętli nie da się uprościć eliminując powtórzenia (ponieważ zachowanie gałęzi 'else' jest inne od pozostałych trzech)
             for linia in self.pomiar.stopka:
                 poprawna_linia = linia.replace(u"!", u"")
 
